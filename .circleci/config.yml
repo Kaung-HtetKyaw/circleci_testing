@@ -90,6 +90,23 @@ jobs:
           paths:
             - packages/ui/build
 
+  pre-release:
+    executor: node-step
+    #    resource_class: medium+
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - setup_remote_docker:
+          version: 19.03.12
+      #          docker_layer_caching: true
+      - aws-ecr/ecr-login
+      - run:
+          name: pre-release
+          command: node predeploy.js
+          working_directory: ./packages/node-deploy
+          no_output_timeout: 1h
+
 workflows:
   version: 2
 

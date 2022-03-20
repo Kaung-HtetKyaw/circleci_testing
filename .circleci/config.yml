@@ -7,7 +7,7 @@ orbs:
 executors:
   node-step:
     docker:
-      - image: circleci/node:14.4.0
+      - image: circleci/node
 
 jobs:
   deps-install:

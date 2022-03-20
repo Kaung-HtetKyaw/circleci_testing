@@ -1,0 +1,1 @@
+{"version":3,"sources":["../index.js"],"names":["console","log"],"mappings":"AAAA,gBAAe,MAAM;AACnBA,EAAAA,OAAO,CAACC,GAAR,CAAY,YAAZ;AACD,CAFD","sourcesContent":["export default () => {\n  console.log('UI package');\n};\n"],"file":"index.js"}

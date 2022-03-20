@@ -1,0 +1,109 @@
+version: 2.1
+
+orbs:
+  aws-ecr: circleci/aws-ecr@6.12.2
+  aws-cli: circleci/aws-cli@2.0.3
+
+executors:
+  node-step:
+    docker:
+      - image: circleci/node:14.4.0
+
+jobs:
+  deps-install:
+    executor: node-step
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-n14-{{ checksum "yarn.lock" }}
+            - yarn-n14
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-n14-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.npmrc
+            - ./node_modules'
+            - ./packages/api/node_modules
+            - ./packages/frontend/node_modules
+            - ./packages/ui/node_modules
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - .npmrc
+            - node_modules
+            - ./packages/api/node_modules
+            - ./packages/frontend/node_modules
+            - ./packages/ui/node_modules
+
+  validate-api:
+    executor: node-step
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Linting
+          command: yarn lint
+          working_directory: ./packages/api
+      - run:
+          name: Building
+          command: yarn build
+          working_directory: ./packages/api
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - packages/api/build
+
+  validate-frontend:
+    executor: node-step
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Building
+          command: yarn build
+          working_directory: ./packages/frontend
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - packages/frontend/build
+
+  validate-ui:
+    executor: node-step
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Linting
+          command: yarn lint
+          working_directory: ./packages/ui
+      - run:
+          name: Building
+          command: yarn build
+          working_directory: ./packages/ui
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - packages/ui/build
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - deps-install
+      - validate-ui:
+          requires:
+            - deps-install
+      - validate-api:
+          requires:
+            - deps-install
+      - validate-frontend:
+          requires:
+            - deps-install
+            - validate-ui
+            - validate-api

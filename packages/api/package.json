@@ -1,0 +1,24 @@
+{
+  "name": "@circleci_testing/repo-api",
+  "version": "0.0.0-development",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "build": "NODE_ENV=production babel index.js --ignore **/*.test.js --ignore **/__tests__ --out-dir build -s true",
+    "lint": "eslint . --ext .js "
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.8",
+    "eslint": "^8.11.0"
+  }
+}

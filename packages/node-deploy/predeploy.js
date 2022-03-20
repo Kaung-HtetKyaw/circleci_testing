@@ -17,6 +17,11 @@ const execute = async () => {
 
     const parts = current.split('/');
     const channelName = parts.length === 2 ? parts[1] : parts[0];
+    const containsOnlyAlpha = !/^[a-z]+$/.test(channelName);
+
+    if (parts[0] === 'stg' && parts.length !== 2 && !containsOnlyAlpha) {
+        throw new Error('Branch not matching expectations');
+    }
 
     if (!/^[a-z]+$/.test(channelName)) {
         throw new Error('Branch not matching expectations');

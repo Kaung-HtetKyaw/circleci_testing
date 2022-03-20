@@ -124,3 +124,13 @@ workflows:
             - deps-install
             - validate-ui
             - validate-api
+      - pre-release:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - deps-install
+            - validate-ui
+            - validate-api
+            - validate-frontend

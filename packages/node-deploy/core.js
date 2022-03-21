@@ -64,18 +64,6 @@ const buildAndPush = ({ directoryName, projectName, imageName, envVersionKey = '
         // then build the docker image
         logger.log('Docker building for %s', versionTag);
         await execCommand('docker', ['build', '-t', versionTag, '-f', './Dockerfile', '.'], { cwd });
-
-        // tag the image for the channel
-        const channelTag = getImageName(channel, imageName);
-        await execCommand('docker', ['tag', versionTag, channelTag]);
-
-        // semantic release create draft releases on GtHib when starting the publish step
-        // but the deployment is tiggered on new tags
-        // however it means the docker images may not yet be available when upgrading the helm releases
-        // so we need to publish the images inside this step
-        // at least only the version image
-        logger.log('Docker pushing for %s', versionTag);
-        await execCommand('docker', ['push', versionTag]);
     };
 
     const publish = async (pluginConfig, context) => {

@@ -54,26 +54,20 @@ const buildAndPush = ({ directoryName, projectName, imageName, envVersionKey = '
         try {
             // try to pull previous image
             const previousTag = getImageName(lastVersion, imageName);
-            logger.log(
-                'Pull previous images from %s',
-                '027416941821.dkr.ecr.ap-southeast-1.amazonaws.com/repo-api:0.0.0-main.dda672ccf79a1c5d419b3a309c9b8b9659ddf4e8'
-            );
-            await execCommand('docker', [
-                'pull',
-                '027416941821.dkr.ecr.ap-southeast-1.amazonaws.com/repo-api:0.0.0-main.dda672ccf79a1c5d419b3a309c9b8b9659ddf4e8',
-            ]);
+            logger.log('Pull previous images from %s', previousTag);
+            await execCommand('docker', ['pull', previousTag]);
         } catch (error) {
             // skip it
             logger.log('Could not pull previous image');
         }
 
-        // tag the image for the channel
-        const channelTag = getImageName(channel, imageName);
-        await execCommand('docker', ['tag', versionTag, channelTag]);
-
         // then build the docker image
         logger.log('Docker building for %s', versionTag);
         await execCommand('docker', ['build', '-t', versionTag, '-f', './Dockerfile', '.'], { cwd });
+
+        // tag the image for the channel
+        const channelTag = getImageName(channel, imageName);
+        await execCommand('docker', ['tag', versionTag, channelTag]);
     };
 
     const publish = async (pluginConfig, context) => {

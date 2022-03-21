@@ -51,15 +51,15 @@ const buildAndPush = ({ directoryName, projectName, imageName, envVersionKey = '
         // get the new image name and its tag
         const versionTag = getImageName(version, imageName);
 
-        try {
-            // try to pull previous image
-            const previousTag = getImageName(lastVersion, imageName);
-            logger.log('Pull previous images from %s', previousTag);
-            await execCommand('docker', ['pull', previousTag]);
-        } catch (error) {
-            // skip it
-            logger.log('Could not pull previous image');
-        }
+        // try {
+        //     // try to pull previous image
+        //     const previousTag = getImageName(lastVersion, imageName);
+        //     logger.log('Pull previous images from %s', previousTag);
+        //     await execCommand('docker', ['pull', previousTag]);
+        // } catch (error) {
+        //     // skip it
+        //     logger.log('Could not pull previous image');
+        // }
 
         // tag the image for the channel
         const channelTag = getImageName(channel, imageName);

@@ -128,7 +128,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
           requires:
             - deps-install
             - validate-ui

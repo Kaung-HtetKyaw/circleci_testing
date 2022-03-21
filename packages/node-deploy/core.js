@@ -61,6 +61,10 @@ const buildAndPush = ({ directoryName, projectName, imageName, envVersionKey = '
             logger.log('Could not pull previous image');
         }
 
+        // tag the image for the channel
+        const channelTag = getImageName(channel, imageName);
+        await execCommand('docker', ['tag', versionTag, channelTag]);
+
         // then build the docker image
         logger.log('Docker building for %s', versionTag);
         await execCommand('docker', ['build', '-t', versionTag, '-f', './Dockerfile', '.'], { cwd });

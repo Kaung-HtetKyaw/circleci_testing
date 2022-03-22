@@ -1,18 +1,11 @@
 module.exports = {
-  release: {
-    branches: [
-      '+([0-9])?(.{+([0-9]),x}).x',
-      {
-        name: 'stable',
-        channel: false,
-      },
-      {
-        name: 'main',
-        channel: 'next',
-        prerelease: 'next',
-      },
-    ],
-  },
+  branches: [
+    {
+      name: 'main',
+      channel: 'next',
+      prerelease: 'next',
+    },
+  ],
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',

@@ -1,8 +1,5 @@
 {
   "name": "@circleci-testing/repo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "private": true,
   "workspaces": [
     "packages/*"

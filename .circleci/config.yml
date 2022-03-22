@@ -162,7 +162,8 @@ workflows:
           filters:
             branches:
               only:
-                - /^stg\/[a-z]+$/
+                - main
+                - stable
           requires:
             - validate-node-deploy
             - validate-ui
@@ -172,8 +173,7 @@ workflows:
           filters:
             branches:
               only:
-                - main
-                - stable
+                - /^stg\/[a-z]+$/
           requires:
             - validate-node-deploy
             - validate-ui

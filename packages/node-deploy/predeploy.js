@@ -2,6 +2,8 @@
 const { Octokit } = require('octokit');
 const simpleGit = require('simple-git');
 
+console.log(process.env.GH_TOKEN);
+
 const execute = async () => {
     // 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
     const ghToken = process.env.GH_TOKEN;
@@ -68,8 +70,8 @@ const execute = async () => {
 
     // create the tag with GitHub
     await octokit.rest.git.createTag({
-        owner: process.env.CIRCLE_PROJECT_USERNAME,
-        repo: process.env.CIRCLE_PROJECT_REPONAME,
+        owner: process.env.USERNAME,
+        repo: process.env.REPO_NAME,
         tag: tagName,
         object: head.hash,
         type: 'commit',

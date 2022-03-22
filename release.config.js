@@ -14,8 +14,9 @@ module.exports = {
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
-    '@appvantageasia/afc-node-deploy/deploy-api.js',
-    '@appvantageasia/afc-node-deploy/deploy-frontend.js',
+    '@circleci_testing/repo-node-deploy/deploy-api.js',
+    '@circleci_testing/repo-node-deploy/deploy-frontend.js',
     '@semantic-release/github',
   ],
+  repositoryUrl: 'https://github.com/Kaung-HtetKyaw/circleci_testing',
 };

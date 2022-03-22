@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "@appvantageasia/afc-node-deploy",
+    "name": "@circleci_testing/repo-node-deploy",
     "version": "0.0.0-development",
     "description": "Provide deployment plugins for semantic-release",
     "scripts": {

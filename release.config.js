@@ -5,7 +5,7 @@ module.exports = {
       channel: false,
     },
     {
-      name: 'master',
+      name: 'main',
       channel: 'next',
       prerelease: 'next',
     },

@@ -24,7 +24,7 @@ jobs:
           key: yarn-n14-{{ checksum "yarn.lock" }}
           paths:
             - ~/.npmrc
-            - ./node_modules'
+            - ./node_modules
             - ./packages/api/node_modules
             - ./packages/frontend/node_modules
             - ./packages/ui/node_modules

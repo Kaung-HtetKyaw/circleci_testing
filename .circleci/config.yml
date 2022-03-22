@@ -25,6 +25,7 @@ jobs:
           paths:
             - ~/.npmrc
             - ./node_modules
+            - ./packages/node-deploy/node_modules
             - ./packages/api/node_modules
             - ./packages/frontend/node_modules
             - ./packages/ui/node_modules
@@ -33,9 +34,23 @@ jobs:
           paths:
             - .npmrc
             - node_modules
+            - ./packages/node-deploy/node_modules
             - ./packages/api/node_modules
             - ./packages/frontend/node_modules
             - ./packages/ui/node_modules
+
+  validate-node-deploy:
+    executor: node-step
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Linting
+          command: yarn lint --format junit -o ./junit/js-lint-results.xml
+          working_directory: ./packages/node-deploy
+      - store_test_results:
+          path: ~/project/packages/node-deploy/junit/
 
   validate-api:
     executor: node-step
@@ -107,12 +122,31 @@ jobs:
           working_directory: ./packages/node-deploy
           no_output_timeout: 1h
 
+  release:
+    executor: node-step
+    # resource_class: medium+
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - setup_remote_docker:
+          version: 19.03.12
+        # docker_layer_caching: true
+      - aws-ecr/ecr-login
+      - run:
+          name: semantic-release
+          command: yarn semantic-release
+          no_output_timeout: 1h
+
 workflows:
   version: 2
 
   build:
     jobs:
       - deps-install
+      - validate-node-deploy:
+          requires:
+            - deps-install
       - validate-ui:
           requires:
             - deps-install
@@ -124,13 +158,24 @@ workflows:
             - deps-install
             - validate-ui
             - validate-api
+      - release:
+          filters:
+            branches:
+              only:
+                - /^stg\/[a-z]+$/
+          requires:
+            - validate-node-deploy
+            - validate-ui
+            - validate-api
+            - validate-frontend
       - pre-release:
           filters:
             branches:
               only:
                 - main
+                - stable
           requires:
-            - deps-install
+            - validate-node-deploy
             - validate-ui
             - validate-api
             - validate-frontend

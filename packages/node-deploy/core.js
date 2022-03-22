@@ -68,6 +68,10 @@ const buildAndPush = ({ directoryName, projectName, imageName, envVersionKey = '
         // tag the image for the channel
         const channelTag = getImageName(channel, imageName);
         await execCommand('docker', ['tag', versionTag, channelTag]);
+
+        // push versioned image
+        logger.log('Docker pushing for %s', versionTag);
+        await execCommand('docker', ['push', versionTag]);
     };
 
     const publish = async (pluginConfig, context) => {

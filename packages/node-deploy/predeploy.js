@@ -2,10 +2,7 @@
 const { Octokit } = require('octokit');
 const simpleGit = require('simple-git');
 
-console.log(process.env.GH_TOKEN);
-
 const execute = async () => {
-    // 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
     const ghToken = process.env.GH_TOKEN;
 
     if (!ghToken) {
@@ -19,13 +16,9 @@ const execute = async () => {
 
     const parts = current.split('/');
     const channelName = parts.length === 2 ? parts[1] : parts[0];
-    const containsOnlyAlpha = !/^[a-z]+$/.test(channelName);
+    const containsOnlyAlpha = /^[a-z]+$/.test(channelName);
 
-    if (parts[0] === 'stg' && parts.length !== 2 && !containsOnlyAlpha) {
-        throw new Error('Branch not matching expectations');
-    }
-
-    if (!/^[a-z]+$/.test(channelName)) {
+    if (parts[0] !== 'stg' || parts.length !== 2 || !containsOnlyAlpha) {
         throw new Error('Branch not matching expectations');
     }
 

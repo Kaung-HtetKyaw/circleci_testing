@@ -20,7 +20,7 @@ function App() {
           rel="noopener noreferrer"
         >
           You can read more about this
-          <a href="https://circleci.com/docs/2.0">here</a>
+          <a href="https://circleci.com/docs">here</a>
         </a>
       </header>
     </div>

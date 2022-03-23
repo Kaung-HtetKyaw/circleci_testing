@@ -19,7 +19,8 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Hello World
+          You can read more about this
+          <a href="https://circleci.com/docs/2.0">here</a>
         </a>
       </header>
     </div>

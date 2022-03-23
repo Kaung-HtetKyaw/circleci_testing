@@ -7,5 +7,4 @@ module.exports = {
     '@circleci_testing/repo-node-deploy/deploy-frontend.js',
     ['@semantic-release/github', { success: false, fail: false }],
   ],
-  repositoryUrl: 'https://github.com/Kaung-HtetKyaw/circleci_testing',
 };

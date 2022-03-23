@@ -18,11 +18,11 @@ const publish = async (pluginConfig, context) => {
                 pass: process.env.NOTIFY_SMTP_PASSWORD,
             },
         },
-        { from: 'no-reply@services.appvantage.co' }
+        { from: process.env.NOTIFY_SMTP_IDENTITY }
     );
 
     await transport.sendMail({
-        to: 'Releases - AFC <314a544b.appvantage.co@apac.teams.ms>',
+        to: 'speed02749@gmail.com',
         subject: name,
         html,
     });
